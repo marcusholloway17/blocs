@@ -25,7 +25,9 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     CommonModule,
     RouterModule,
     ClarityModule,
-    NgxClrSmartGridModule,
+    NgxClrSmartGridModule.forRoot({
+      pipeTransformMap: {}
+    }),
     NgxSmartFormModule,
     // EditorModule,
   ],
