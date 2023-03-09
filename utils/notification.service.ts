@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { httpResponses } from 'src/app/views/dashboard/httpResponses';
+import { httpResponses } from 'src/app/blocs/httpResponses';
 import {
   AppUIStateProvider,
   UIStateStatusCode,

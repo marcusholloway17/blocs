@@ -1,0 +1,86 @@
+<!-- content header -->
+<app-content-header
+  *ngIf="title"
+  [title]="title"
+  [description]="description"
+  [hasReturn]="true"
+></app-content-header>
+
+<!-- content body -->
+<div class="card custom-card-padding">
+  <h4 *ngIf="grid_title">{{ grid_title }}</h4>
+  <ngx-clr-smart-grid
+    [data]="data"
+    [columns]="columns"
+    [loading]="loading"
+    [config]="config"
+  >
+    <!-- action bar -->
+    <ng-template #dgActionBar let-selected>
+      <div class="btn-group">
+        <button
+          type="button"
+          class="btn btn-sm btn-outline"
+          (click)="getData()"
+        >
+          <clr-icon shape="refresh"></clr-icon>
+          Actualiser
+        </button>
+        <button type="button" class="btn btn-sm btn-outline" (click)="onAdd()">
+          <clr-icon shape="note"></clr-icon>
+          Ajouter
+        </button>
+      </div>
+    </ng-template>
+
+    <!-- overflow action -->
+    <ng-template #dgActionOverflow let-item>
+      <button class="action-item" (click)="onEdit(item)">Editer</button>
+      <button class="action-item" (click)="deleteRequest(item)">
+        Supprimer
+      </button>
+    </ng-template>
+  </ngx-clr-smart-grid>
+</div>
+
+<!-- modal -->
+<clr-modal
+  [(clrModalOpen)]="modal"
+  [clrModalClosable]="true"
+  [clrModalSize]="'xl'"
+>
+  <h4 class="modal-title" *ngIf="form_title">{{ form_title }}</h4>
+  <div class="modal-body">
+    <ng-container *ngIf="form$ | async as vm">
+      <ngx-smart-form
+        #formvalue
+        [form]="vm"
+        [submitable]="true"
+        (submit)="onSubmit($event)"
+      >
+        <ng-template #submitButton let-handler>
+          <button class="btn btn-primary" (click)="handler($event)">
+            <clr-icon shape="circle-arrow" dir="up"></clr-icon>
+            SOUMETTRE
+          </button>
+          <button
+            class="btn btn-outline-warning"
+            (click)="reset()"
+            *ngIf="form.updating"
+          >
+            <clr-icon shape="times" dir="up"></clr-icon>
+            ANNULER
+          </button>
+        </ng-template>
+        
+        <!-- <ng-template #template let-input="value" let-control="control" >
+          <app-text-editor
+            [input]="input"
+            [control]="control"
+          ></app-text-editor>
+        </ng-template> -->
+      </ngx-smart-form>
+    </ng-container>
+  </div>
+</clr-modal>
+<app-confirmation (confirm)="onDelete($event)"></app-confirmation>
