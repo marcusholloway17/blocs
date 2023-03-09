@@ -1,0 +1,10 @@
+<div class="card custom-card-padding">
+  <h3>{{ title | uppercase }}</h3>
+  <div class="page-description">
+    <p>{{ description }}</p>
+  </div>
+  <button *ngIf="hasReturn" class="btn btn-sm btn-link" [routerLink]="'..'">
+    <clr-icon shape="arrow"></clr-icon>
+    retour
+  </button>
+</div>

@@ -1,0 +1,26 @@
+<clr-modal [(clrModalOpen)]="confirmation.opened" [clrModalClosable]="false">
+  <h3 class="modal-title">{{ confirmation.title }}</h3>
+  <div class="modal-body">
+    <clr-alert
+      [clrAlertType]="confirmation.type || 'danger'"
+      [clrAlertClosable]="false"
+      >{{ confirmation.message }}</clr-alert
+    >
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="onReject();"
+    >
+      Non
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="onConfirm(); confirmation.opened = false"
+    >
+      Oui
+    </button>
+  </div>
+</clr-modal>
