@@ -10,6 +10,7 @@ import { CrudComponent } from './crud/crud.component';
 import { NgxClrSmartGridModule } from '@azlabsjs/ngx-clr-smart-grid';
 import { NgxSmartFormModule } from '@azlabsjs/ngx-smart-form';
 import { TextEditorComponent } from './text-editor/text-editor.component';
+import { SearcherComponent } from './searcher/searcher.component';
 // import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     ConfirmationComponent,
     CrudComponent,
     TextEditorComponent,
+    SearcherComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     CardsComponent,
     ConfirmationComponent,
     CrudComponent,
+    SearcherComponent
   ],
 })
 export class BlocsModule {}
