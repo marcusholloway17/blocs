@@ -1,6 +1,6 @@
 <div class="clr-row">
   <div class="clr-col-lg-3 clr-col-md-4 clr-col-12" *ngFor="let item of cards">
-    <div class="card">
+    <div [class]="'card ' + item?.class">
       <h3 class="card-header">{{ item?.title }}</h3>
       <div class="card-block">
         <h4 class="card-title" *ngIf="item?.subtitle">{{ item?.subtitle }}</h4>

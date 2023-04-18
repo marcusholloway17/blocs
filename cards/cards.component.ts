@@ -5,6 +5,7 @@ export interface Card {
   title: string;
   subtitle?: string;
   content?: string;
+  class?: string;
   actions?: CardAction[];
 }
 
