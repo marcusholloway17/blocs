@@ -20,7 +20,7 @@ export class NotificationService {
 
   success(message?: string) {
     this.UIState.endAction(
-      message || httpResponses.fr.successfull_operation,
+      message ?? httpResponses.fr.successfull_operation,
       UIStateStatusCode.OK
     );
   }

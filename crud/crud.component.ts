@@ -1,4 +1,4 @@
-import { formatDate } from '@angular/common';
+import { formatDate } from "@angular/common";
 import {
   AfterContentInit,
   AfterViewInit,
@@ -6,35 +6,38 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
-} from '@angular/core';
-import { GridColumnType, GridConfigType } from '@azlabsjs/ngx-clr-smart-grid';
+} from "@angular/core";
+import { GridColumnType, GridConfigType } from "@azlabsjs/ngx-clr-smart-grid";
 import {
-  FormComponentInterface,
   FormsClient,
   FORM_CLIENT,
-} from '@azlabsjs/ngx-smart-form';
-import { tap } from 'rxjs';
-import { AppUIStateProvider } from 'src/app/views/partial/ui-state/core';
-import { ConfirmationService } from '../confirmation/confirmation.service';
-import { setcontrolvalue } from '../utils';
-import { FormState, FormStateService } from '../utils/form-state.service';
-import { NotificationService } from '../utils/notification.service';
-import { CrudService } from './crud.service';
+  ReactiveFormComponentInterface,
+} from "@azlabsjs/ngx-smart-form";
+import { Observable, Subject, lastValueFrom, map, takeUntil, tap } from "rxjs";
+import { AppUIStateProvider } from "src/app/views/partial/ui-state/core";
+import { ConfirmationService } from "../confirmation/confirmation.service";
+import { setcontrolvalue } from "../utils";
+import { FormState, FormStateService } from "../utils/form-state.service";
+import { NotificationService } from "../utils/notification.service";
+import { CrudService } from "./crud.service";
 
 @Component({
-  selector: 'app-crud',
-  templateUrl: './crud.component.html',
-  styleUrls: ['./crud.component.css'],
+  selector: "app-crud",
+  templateUrl: "./crud.component.html",
+  styleUrls: ["./crud.component.css"],
   providers: [CrudService],
 })
-export class CrudComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class CrudComponent
+  implements OnInit, AfterViewInit, AfterContentInit, OnDestroy
+{
   /**
    *
    */
-  @Input() public data: any[] = [];
+  @Input() public data$: Observable<any[]> = this.crudService.data$;
   @Input() public data_params?: any;
   @Input() public columns: GridColumnType[] = [];
   @Input() public config: Partial<GridConfigType> = {
@@ -44,7 +47,7 @@ export class CrudComponent implements OnInit, AfterViewInit, AfterContentInit {
   @Input() set url(value: string) {
     this.crudService.setURL(value);
   }
-  @Input() public title: string = '';
+  @Input() public title: string = "";
   @Input() public description?: string;
   @Input() public form_title?: string;
   @Input() public grid_title?: string;
@@ -56,8 +59,10 @@ export class CrudComponent implements OnInit, AfterViewInit, AfterContentInit {
   public form: FormState = {
     updating: false,
   };
+  private destroy$ = new Subject<void>();
 
-  @ViewChild('formvalue', { static: false }) formvalue!: FormComponentInterface;
+  @ViewChild("formvalue", { static: false })
+  formvalue!: ReactiveFormComponentInterface;
   form$ = this.formsClient.get(this.form_id);
   constructor(
     @Inject(FORM_CLIENT) private formsClient: FormsClient,
@@ -68,97 +73,111 @@ export class CrudComponent implements OnInit, AfterViewInit, AfterContentInit {
     private crudService: CrudService
   ) {}
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
   ngAfterContentInit(): void {
-    this.form$ = this.formsClient.get(this.form_id);
+    this.form$ = this.formsClient
+      .get(this.form_id)
+      .pipe(takeUntil(this.destroy$));
   }
 
   ngAfterViewInit(): void {
     this.setLoading();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.checkState();
     this.checkModalState();
     this.getData();
   }
 
   setLoading() {
-    this.UIState.uiState.subscribe((state) => {
+    this.UIState.uiState.pipe(takeUntil(this.destroy$)).subscribe((state) => {
       this.loading = state.performingAction;
     });
   }
 
   checkState() {
-    this.formstate.currentState.subscribe((state: FormState) => {
-      this.form = state;
-    });
+    this.formstate.currentState
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((state: FormState) => {
+        this.form = state;
+      });
   }
 
   checkModalState() {
-    this.modal == false ? this.reset() : '';
+    this.modal == false ? this.reset() : "";
   }
 
-  getData() {
-    this.UIState.startAction();
-    this.crudService.getAll(this.data_params).subscribe(
-      (res: any) => {
-        this.data = res?.data?.reverse();
-        this.UIState.endAction();
-      },
-      (error: any) => {
-        this.UIState.endAction();
-      }
+  onClose(event: any) {
+    if (event === false) {
+      this.formvalue?.reset();
+    }
+  }
+
+  async getData() {
+    await lastValueFrom(
+      this.crudService.getAll().pipe(takeUntil(this.destroy$))
     );
-  }
-
-  onAdd() {
-    this.reset();
-    this.modal = true;
+    // this.UIState.startAction();
+    // this.crudService
+    //   .getAll(this.data_params)
+    //   .pipe(
+    //     takeUntil(this.destroy$),
+    //     map((res: any) => res?.data),
+    //     map((data) => data?.reverse())
+    //   )
+    //   .subscribe({
+    //     next: (data: any) => {
+    //       this.data = data;
+    //       this.UIState.endAction();
+    //     },
+    //     error: (err) => this.UIState.endAction(),
+    //   });
   }
 
   onSubmit(event: any) {
-    this.UIState.startAction();
     if (this.form.updating) {
       // handling null values in the submited object
       for (const key in event) {
         if (event[key] == null) delete event[key];
       }
-      this.crudService.update(this.form.item_id, event).subscribe(
-        (res: any) => {
-          this.getData();
-          this.reset();
-          this.notification.success();
-        },
-        (error: any) => {
-          this.notification.error(error);
-        }
-      );
+      this.crudService
+        .update(this.form.item_id, event)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            this.reset();
+            this.modal = false;
+          },
+        });
     } else {
-      this.crudService.create(event).subscribe(
-        (res: any) => {
-          this.getData();
-          this.reset();
-          this.notification.success();
-        },
-        (error: any) => {
-          this.notification.error(error?.error?.message);
-        }
-      );
+      this.crudService
+        .create(event)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.reset();
+          },
+        });
     }
   }
 
   onEdit(item: any) {
     this.formstate.editing(item);
-    for (const key in item) {
-      key !== 'id' ? setcontrolvalue(this.formvalue, key, item[key]) : '';
-      (key != null || undefined) && key == 'publishedAt'
-        ? setcontrolvalue(
-            this.formvalue,
-            key,
-            formatDate(item[key], 'MM/dd/yyyy', 'fr')
-          )
-        : '';
-    }
+    this.formvalue?.setValue(item);
+    // for (const key in item) {
+    //   key !== "id" ? setcontrolvalue(this.formvalue, key, item[key]) : "";
+    //   (key != null || undefined) && key == "publishedAt"
+    //     ? setcontrolvalue(
+    //         this.formvalue,
+    //         key,
+    //         formatDate(item[key], "MM/dd/yyyy", "fr")
+    //       )
+    //     : "";
+    // }
     this.modal = true;
   }
 
@@ -168,16 +187,12 @@ export class CrudComponent implements OnInit, AfterViewInit, AfterContentInit {
   }
 
   onDelete(item: any) {
-    this.UIState.startAction();
-    this.crudService.delete(item?.id).subscribe(
-      (res: any) => {
-        this.onRefresh();
-        this.notification.success();
-      },
-      (error: any) => {
-        this.notification.error(error);
-      }
-    );
+    this.crudService
+      .delete(item)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => this.confirmation.close(),
+      });
   }
 
   onRefresh() {

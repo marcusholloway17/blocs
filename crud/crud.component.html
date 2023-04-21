@@ -9,38 +9,44 @@
 <!-- content body -->
 <div class="card custom-card-padding">
   <h4 *ngIf="grid_title">{{ grid_title }}</h4>
-  <ngx-clr-smart-grid
-    [data]="data"
-    [columns]="columns"
-    [loading]="loading"
-    [config]="config"
-  >
-    <!-- action bar -->
-    <ng-template #dgActionBar let-selected>
-      <div class="btn-group">
-        <button
-          type="button"
-          class="btn btn-sm btn-outline"
-          (click)="getData()"
-        >
-          <clr-icon shape="refresh"></clr-icon>
-          Actualiser
-        </button>
-        <button type="button" class="btn btn-sm btn-outline" (click)="onAdd()">
-          <clr-icon shape="note"></clr-icon>
-          Ajouter
-        </button>
-      </div>
-    </ng-template>
+  <ng-container *ngIf="data$ | async as data">
+    <ngx-clr-smart-grid
+      [data]="data"
+      [columns]="columns"
+      [loading]="loading"
+      [config]="config"
+    >
+      <!-- action bar -->
+      <ng-template #dgActionBar let-selected>
+        <div class="btn-group">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline"
+            (click)="getData()"
+          >
+            <clr-icon shape="refresh"></clr-icon>
+            Actualiser
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline"
+            (click)="modal = true"
+          >
+            <clr-icon shape="note"></clr-icon>
+            Ajouter
+          </button>
+        </div>
+      </ng-template>
 
-    <!-- overflow action -->
-    <ng-template #dgActionOverflow let-item>
-      <button class="action-item" (click)="onEdit(item)">Editer</button>
-      <button class="action-item" (click)="deleteRequest(item)">
-        Supprimer
-      </button>
-    </ng-template>
-  </ngx-clr-smart-grid>
+      <!-- overflow action -->
+      <ng-template #dgActionOverflow let-item>
+        <button class="action-item" (click)="onEdit(item)">Editer</button>
+        <button class="action-item" (click)="deleteRequest(item)">
+          Supprimer
+        </button>
+      </ng-template>
+    </ngx-clr-smart-grid>
+  </ng-container>
 </div>
 
 <!-- modal -->
@@ -48,6 +54,7 @@
   [(clrModalOpen)]="modal"
   [clrModalClosable]="true"
   [clrModalSize]="'xl'"
+  (clrModalOpenChange)="onClose($event)"
 >
   <h4 class="modal-title" *ngIf="form_title">{{ form_title }}</h4>
   <div class="modal-body">
@@ -72,7 +79,7 @@
             ANNULER
           </button>
         </ng-template>
-        
+
         <!-- <ng-template #template let-input="value" let-control="control" >
           <app-text-editor
             [input]="input"
