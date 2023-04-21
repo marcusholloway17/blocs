@@ -27,7 +27,7 @@ export class ConfirmationService {
     });
   }
 
-  clase() {
+  close() {
     this.reject();
   }
 
