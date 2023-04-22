@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  TemplateRef,
   ViewChild,
 } from "@angular/core";
 import { GridColumnType, GridConfigType } from "@azlabsjs/ngx-clr-smart-grid";
@@ -51,7 +52,13 @@ export class CrudComponent
   @Input() public description?: string;
   @Input() public form_title?: string;
   @Input() public grid_title?: string;
+  @Input() otherActionOverflowTemplateRef!: TemplateRef<unknown>;
+  @Input() otherActionBarTemplateRef!: TemplateRef<unknown>;
+  @Input() otherRowDetailTemplateRef!: TemplateRef<unknown>;
+  @Input() otherDetailBodyTemplateRef!: TemplateRef<unknown>;
   @Output() public refresh: EventEmitter<any> = new EventEmitter();
+  @Output() public otherActionOverflowClick: EventEmitter<any> =
+    new EventEmitter();
 
   public hasTextArea: boolean = true;
   public loading: boolean = true;
@@ -204,5 +211,10 @@ export class CrudComponent
   reset() {
     this.formstate?.resetState();
     this.formvalue?.reset();
+  }
+
+  // on other action overflow click
+  onOtherActionOverflowClick(item: any) {
+    this.otherActionOverflowClick.emit(item);
   }
 }

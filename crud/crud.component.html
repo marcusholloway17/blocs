@@ -35,15 +35,51 @@
             <clr-icon shape="note"></clr-icon>
             Ajouter
           </button>
+          <ng-container
+            *ngTemplateOutlet="
+              otherActionBarTemplateRef;
+              context: { $implicit: selected }
+            "
+          >
+          </ng-container>
         </div>
       </ng-template>
 
       <!-- overflow action -->
       <ng-template #dgActionOverflow let-item>
         <button class="action-item" (click)="onEdit(item)">Editer</button>
+        <ng-container
+          *ngTemplateOutlet="
+            otherActionOverflowTemplateRef;
+            context: { $implicit: item }
+          "
+        >
+        </ng-container>
         <button class="action-item" (click)="deleteRequest(item)">
           Supprimer
         </button>
+      </ng-template>
+
+      <!-- expandable row -->
+      <ng-template #dgRowDetail let-item>
+        <ng-container
+          *ngTemplateOutlet="
+            otherRowDetailTemplateRef;
+            context: { $implicit: item }
+          "
+        >
+        </ng-container>
+      </ng-template>
+
+      <!-- row detail -->
+      <ng-template #dgDetailBody let-item>
+        <ng-container
+          *ngTemplateOutlet="
+            otherDetailBodyTemplateRef;
+            context: { $implicit: item }
+          "
+        >
+        </ng-container>
       </ng-template>
     </ngx-clr-smart-grid>
   </ng-container>
