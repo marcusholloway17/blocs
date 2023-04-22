@@ -174,6 +174,10 @@ export class CrudComponent
 
   onEdit(item: any) {
     this.formstate.editing(item);
+    // solve radio field error on edit 
+    if (item?.hasOwnProperty('active')) {
+      item.active = item.active.toString()
+    }
     this.formvalue?.formGroup.patchValue(item);
     // for (const key in item) {
     //   key !== "id" ? setcontrolvalue(this.formvalue, key, item[key]) : "";
