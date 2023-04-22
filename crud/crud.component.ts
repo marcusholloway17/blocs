@@ -174,7 +174,7 @@ export class CrudComponent
 
   onEdit(item: any) {
     this.formstate.editing(item);
-    this.formvalue?.setValue(item);
+    this.formvalue?.formGroup.patchValue(item);
     // for (const key in item) {
     //   key !== "id" ? setcontrolvalue(this.formvalue, key, item[key]) : "";
     //   (key != null || undefined) && key == "publishedAt"
