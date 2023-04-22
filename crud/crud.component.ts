@@ -1,4 +1,3 @@
-import { formatDate } from "@angular/common";
 import {
   AfterContentInit,
   AfterViewInit,
@@ -18,10 +17,17 @@ import {
   FORM_CLIENT,
   ReactiveFormComponentInterface,
 } from "@azlabsjs/ngx-smart-form";
-import { Observable, Subject, lastValueFrom, map, takeUntil, tap } from "rxjs";
+import {
+  Observable,
+  Subject,
+  catchError,
+  lastValueFrom,
+  takeUntil,
+  tap,
+  throwError,
+} from "rxjs";
 import { AppUIStateProvider } from "src/app/views/partial/ui-state/core";
 import { ConfirmationService } from "../confirmation/confirmation.service";
-import { setcontrolvalue } from "../utils";
 import { FormState, FormStateService } from "../utils/form-state.service";
 import { NotificationService } from "../utils/notification.service";
 import { CrudService } from "./crud.service";
@@ -126,23 +132,8 @@ export class CrudComponent
 
   async getData() {
     await lastValueFrom(
-      this.crudService.getAll().pipe(takeUntil(this.destroy$))
+      this.crudService.getAll(this.data_params).pipe(takeUntil(this.destroy$))
     );
-    // this.UIState.startAction();
-    // this.crudService
-    //   .getAll(this.data_params)
-    //   .pipe(
-    //     takeUntil(this.destroy$),
-    //     map((res: any) => res?.data),
-    //     map((data) => data?.reverse())
-    //   )
-    //   .subscribe({
-    //     next: (data: any) => {
-    //       this.data = data;
-    //       this.UIState.endAction();
-    //     },
-    //     error: (err) => this.UIState.endAction(),
-    //   });
   }
 
   onSubmit(event: any) {
@@ -153,42 +144,42 @@ export class CrudComponent
       }
       this.crudService
         .update(this.form.item_id, event)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (res) => {
+        .pipe(
+          takeUntil(this.destroy$),
+          catchError((err) => {
+            this.notification.error(err);
+            return throwError(() => err);
+          }),
+          tap((res) => {
             this.reset();
             this.modal = false;
-          },
-        });
+          })
+        )
+        .subscribe();
     } else {
       this.crudService
         .create(event)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: () => {
+        .pipe(
+          takeUntil(this.destroy$),
+          catchError((err) => {
+            this.notification.error(err);
+            return throwError(() => err);
+          }),
+          tap((res) => {
             this.reset();
-          },
-        });
+          })
+        )
+        .subscribe();
     }
   }
 
   onEdit(item: any) {
     this.formstate.editing(item);
-    // solve radio field error on edit 
-    if (item?.hasOwnProperty('active')) {
-      item.active = item.active.toString()
+    // solve radio field error on edit
+    if (item?.hasOwnProperty("active")) {
+      item.active = item.active.toString();
     }
     this.formvalue?.formGroup.patchValue(item);
-    // for (const key in item) {
-    //   key !== "id" ? setcontrolvalue(this.formvalue, key, item[key]) : "";
-    //   (key != null || undefined) && key == "publishedAt"
-    //     ? setcontrolvalue(
-    //         this.formvalue,
-    //         key,
-    //         formatDate(item[key], "MM/dd/yyyy", "fr")
-    //       )
-    //     : "";
-    // }
     this.modal = true;
   }
 
