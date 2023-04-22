@@ -13,8 +13,8 @@ export class NotificationService {
   constructor(private UIState: AppUIStateProvider) {}
 
   error(error: any) {
-    for (const key in error.error) {
-      this.UIState.endAction(error.error[key][0], UIStateStatusCode.ERROR);
+    for (const key in error.errors) {
+      this.UIState.endAction(error.error[key]['msg'], UIStateStatusCode.ERROR);
     }
   }
 
