@@ -22,14 +22,14 @@ export class ConfirmationComponent implements OnInit {
   };
 
   @Output() confirm: EventEmitter<any> = new EventEmitter();
-  constructor(private confirmationService: ConfirmationService) {}
+  constructor(private confirm$: ConfirmationService) {}
 
   ngOnInit(): void {
     this.setState();
   }
 
   setState() {
-    this.confirmationService.confirmationState$.subscribe(
+    this.confirm$.confirmationState$.subscribe(
       (state: Confirmation) => {
         this.confirmation = { ...this.confirmation, ...state };
       }
@@ -38,6 +38,7 @@ export class ConfirmationComponent implements OnInit {
 
   onConfirm() {
     this.confirm.emit(this.confirmation.data);
+    this.confirm$.close();
     this.resetState();
   }
 

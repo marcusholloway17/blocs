@@ -8,17 +8,13 @@
     >
   </div>
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-primary"
-      (click)="onReject();"
-    >
+    <button type="button" class="btn btn-outline-primary" (click)="onReject()">
       Non
     </button>
     <button
       type="button"
       class="btn btn-primary"
-      (click)="onConfirm(); confirmation.opened = false"
+      (click)="onConfirm()"
     >
       Oui
     </button>
