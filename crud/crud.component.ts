@@ -63,8 +63,7 @@ export class CrudComponent
   @Input() otherRowDetailTemplateRef!: TemplateRef<unknown>;
   @Input() otherDetailBodyTemplateRef!: TemplateRef<unknown>;
   @Output() public refresh: EventEmitter<any> = new EventEmitter();
-  @Output() public otherActionOverflowClick: EventEmitter<any> =
-    new EventEmitter();
+  @Output() public detailChange: EventEmitter<any> = new EventEmitter();
 
   public hasTextArea: boolean = true;
   public loading: boolean = true;
@@ -136,6 +135,10 @@ export class CrudComponent
     );
   }
 
+  onDetailChange(event: any) {
+    this.detailChange.emit(event);
+  }
+
   onSubmit(event: any) {
     if (this.form.updating) {
       // handling null values in the submited object
@@ -191,10 +194,11 @@ export class CrudComponent
   onDelete(item: any) {
     this.crudService
       .delete(item)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => this.confirmation.close(),
-      });
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((res) => this.confirmation.close())
+      )
+      .subscribe();
   }
 
   onRefresh() {
@@ -206,10 +210,5 @@ export class CrudComponent
   reset() {
     this.formstate?.resetState();
     this.formvalue?.reset();
-  }
-
-  // on other action overflow click
-  onOtherActionOverflowClick(item: any) {
-    this.otherActionOverflowClick.emit(item);
   }
 }

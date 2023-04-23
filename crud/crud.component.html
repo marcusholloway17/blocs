@@ -15,6 +15,7 @@
       [columns]="columns"
       [loading]="loading"
       [config]="config"
+      (detailChange)="onDetailChange($event)"
     >
       <!-- action bar -->
       <ng-template #dgActionBar let-selected>
