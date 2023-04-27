@@ -68,7 +68,6 @@ export class CrudService {
         this.UIState.endAction();
         return throwError(() => err);
       }),
-      map((res: any) => res?.data),
       map((data: any) => data?.reverse()),
       tap((result) => this._data$.next(result)),
       tap(() => this.UIState.endAction())

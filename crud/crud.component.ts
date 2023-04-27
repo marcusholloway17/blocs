@@ -76,7 +76,6 @@ export class CrudComponent
     private UIState: AppUIStateProvider,
     private formstate: FormStateService,
     private confirmation: ConfirmationService,
-    private notification: NotificationService,
     private crudService: CrudService
   ) {}
 
@@ -126,7 +125,7 @@ export class CrudComponent
 
   async getData() {
     await lastValueFrom(
-      this.crudService.getAll().pipe(takeUntil(this.destroy$))
+      this.crudService.getAll(this.data_params).pipe(takeUntil(this.destroy$))
     );
     // this.UIState.startAction();
     // this.crudService
