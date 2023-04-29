@@ -10,7 +10,7 @@ export interface Card {
 }
 
 export interface CardAction {
-  route: string;
+  route: string | string[];
   label: string;
   routeIcon?: string;
   class?: string;

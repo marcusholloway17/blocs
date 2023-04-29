@@ -19,7 +19,7 @@ import {
   ReactiveFormComponentInterface,
 } from "@azlabsjs/ngx-smart-form";
 import { Observable, Subject, lastValueFrom, map, takeUntil, tap } from "rxjs";
-import { AppUIStateProvider } from "src/app/views/partial/ui-state/core";
+import { AppUIStateProvider } from "src/app/views/partials/ui-state/core";
 import { ConfirmationService } from "../confirmation/confirmation.service";
 import { setcontrolvalue } from "../utils";
 import { FormState, FormStateService } from "../utils/form-state.service";

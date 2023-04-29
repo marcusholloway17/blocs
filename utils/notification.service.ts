@@ -3,7 +3,7 @@ import { httpResponses } from 'src/app/blocs/httpResponses';
 import {
   AppUIStateProvider,
   UIStateStatusCode,
-} from 'src/app/views/partial/ui-state/core';
+} from 'src/app/views/partials/ui-state/core';
 
 // helper to send notification to user UI
 @Injectable({

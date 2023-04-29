@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, catchError, map, tap, throwError } from "rxjs";
-import { AppUIStateProvider } from "src/app/views/partial/ui-state/core";
 import { NotificationService } from "../utils/notification.service";
+import { AppUIStateProvider } from "src/app/views/partials/ui-state/core";
 
 @Injectable()
 export class CrudService {

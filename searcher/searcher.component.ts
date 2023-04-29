@@ -17,7 +17,7 @@ import {
 } from '@azlabsjs/ngx-smart-form';
 import { Observable, Subject, catchError, takeUntil, throwError } from 'rxjs';
 import { FormConfigInterface } from '@azlabsjs/smart-form-core';
-import { AppUIStateProvider } from 'src/app/views/partial/ui-state/core';
+import { AppUIStateProvider } from 'src/app/views/partials/ui-state/core';
 
 @Component({
   selector: 'app-searcher',

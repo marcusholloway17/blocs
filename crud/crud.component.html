@@ -7,7 +7,7 @@
 ></app-content-header>
 
 <!-- content body -->
-<div class="card custom-card-padding">
+<div class="card pd-1">
   <h4 *ngIf="grid_title">{{ grid_title }}</h4>
   <ng-container *ngIf="data$ | async as data">
     <ngx-clr-smart-grid
