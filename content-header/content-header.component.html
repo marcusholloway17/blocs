@@ -1,22 +1,17 @@
-<div class="clr-row">
-  <div class="clr-col-sm-12 clr-col-md-6">
-    <h4 class="content-title">{{ title }}</h4>
+<div class="clr-row pd-1" *ngIf="!customTemplateRef">
+  <div *ngIf="!customTemplateRef && title" class="clr-col-sm-12 clr-col-md-6">
+    <h1 class="mg-t-0">{{ title }}</h1>
+    <div *ngIf="!customTemplateRef && description">
+      <p class="mg-t-0">{{ description }}</p>
+    </div>
+    <a *ngIf="!customTemplateRef && hasReturn" class="btn btn-primary" [routerLink]="'..'">
+      <clr-icon shape="arrow" dir="left"></clr-icon>
+      retour
+    </a>
   </div>
-  <div class="clr-col-sm-12 clr-col-md-6">
+  <!-- filter form serction -->
+  <!-- <div *ngIf="!customTemplateRef && hasReturn" class="clr-col-sm-12 clr-col-md-6">
     
-  </div>
-  <div class="clr-col-sm-12 clr-col-md-12">
-    <span>clr-col-sm-12 clr-col-md-12</span>
-  </div>
+  </div> -->
 </div>
-
-<div>
-  <h3>{{ title | uppercase }}</h3>
-  <div class="page-description">
-    <p>{{ description }}</p>
-  </div>
-  <button *ngIf="hasReturn" class="btn btn-sm btn-link" [routerLink]="'..'">
-    <clr-icon shape="arrow"></clr-icon>
-    retour
-  </button>
-</div>
+<ng-container [ngTemplateOutlet]="customTemplateRef"> </ng-container>
