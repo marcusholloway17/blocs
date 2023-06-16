@@ -31,6 +31,19 @@ import { ConfirmationService } from "../confirmation/confirmation.service";
 import { FormState, FormStateService } from "../utils/form-state.service";
 import { NotificationService } from "../utils/notification.service";
 import { CrudService } from "./crud.service";
+import { ActivatedRoute } from "@angular/router";
+
+export type CrudConfingType = {
+  title: string;
+  description?: string;
+  form_title?: string;
+  grid_title?: string;
+  columns: GridColumnType[];
+  config: Partial<GridConfigType>;
+  form_id: number;
+  url: string;
+  data_params?: any;
+};
 
 @Component({
   selector: "app-crud",
@@ -45,19 +58,21 @@ export class CrudComponent
    *
    */
   @Input() public data$: Observable<any[]> = this.crudService.data$;
-  @Input() public data_params?: any;
-  @Input() public columns: GridColumnType[] = [];
-  @Input() public config: Partial<GridConfigType> = {
+  @Input() public crudConfig: CrudConfingType = this.route.snapshot
+    .data as CrudConfingType;
+  @Input() public data_params?: any = this.crudConfig.data_params;
+  @Input() public columns: GridColumnType[] = this.crudConfig.columns ?? [];
+  @Input() public config: Partial<GridConfigType> = this.crudConfig.config ?? {
     hasActionOverflow: true,
   };
-  @Input() public form_id: number = 0;
+  @Input() public form_id: number = this.crudConfig.form_id ?? 0;
   @Input() set url(value: string) {
     this.crudService.setURL(value);
   }
-  @Input() public title: string = "";
-  @Input() public description?: string;
-  @Input() public form_title?: string;
-  @Input() public grid_title?: string;
+  @Input() public title: string = this.crudConfig.title ?? "";
+  @Input() public description?: string = this.crudConfig.description;
+  @Input() public form_title?: string = this.crudConfig.form_title;
+  @Input() public grid_title?: string = this.crudConfig.grid_title;
   @Input() otherActionOverflowTemplateRef!: TemplateRef<unknown>;
   @Input() otherActionBarTemplateRef!: TemplateRef<unknown>;
   @Input() otherRowDetailTemplateRef!: TemplateRef<unknown>;
@@ -65,7 +80,6 @@ export class CrudComponent
   @Output() public refresh: EventEmitter<any> = new EventEmitter();
   @Output() public detailChange: EventEmitter<any> = new EventEmitter();
 
-  public hasTextArea: boolean = true;
   public loading: boolean = true;
   public modal: boolean = false;
   public form: FormState = {
@@ -78,12 +92,24 @@ export class CrudComponent
   form$ = this.formsClient.get(this.form_id);
   constructor(
     @Inject(FORM_CLIENT) private formsClient: FormsClient,
+    private route: ActivatedRoute,
     private UIState: AppUIStateProvider,
     private formstate: FormStateService,
     private confirmation: ConfirmationService,
     private notification: NotificationService,
     private crudService: CrudService
-  ) {}
+  ) {
+    this.initialize()
+  }
+
+  initialize() {
+    if (Object.keys(this.crudConfig).length !== 0) {
+      // set url
+      if (this.crudConfig?.url) {
+        this.url = this.crudConfig.url;
+      }
+    }
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next();

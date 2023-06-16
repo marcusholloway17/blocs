@@ -93,7 +93,9 @@
   [clrModalSize]="'xl'"
   (clrModalOpenChange)="onClose($event)"
 >
-  <h4 class="modal-title" *ngIf="form_title">{{ form_title }}</h4>
+  <h4 class="modal-title" *ngIf="form_title">
+    {{ form_title }}
+  </h4>
   <div class="modal-body">
     <ng-container *ngIf="form$ | async as vm">
       <ngx-smart-form
