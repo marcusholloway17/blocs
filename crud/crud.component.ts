@@ -32,6 +32,7 @@ import { FormState, FormStateService } from "../utils/form-state.service";
 import { NotificationService } from "../utils/notification.service";
 import { CrudService } from "./crud.service";
 import { ActivatedRoute } from "@angular/router";
+import { PermissionService } from "../utils/permission.service";
 
 export type CrudConfingType = {
   title: string;
@@ -43,6 +44,11 @@ export type CrudConfingType = {
   form_id: number;
   url: string;
   data_params?: any;
+};
+
+export type CrudActionType = {
+  name: string;
+  scopes: string[];
 };
 
 @Component({
@@ -73,6 +79,24 @@ export class CrudComponent
   @Input() public description?: string = this.crudConfig.description;
   @Input() public form_title?: string = this.crudConfig.form_title;
   @Input() public grid_title?: string = this.crudConfig.grid_title;
+  @Input() public actions?: CrudActionType[] = [
+    {
+      name: "create",
+      scopes: [],
+    },
+    {
+      name: "read",
+      scopes: [],
+    },
+    {
+      name: "update",
+      scopes: [],
+    },
+    {
+      name: "delete",
+      scopes: [],
+    },
+  ];
   @Input() otherActionOverflowTemplateRef!: TemplateRef<unknown>;
   @Input() otherActionBarTemplateRef!: TemplateRef<unknown>;
   @Input() otherRowDetailTemplateRef!: TemplateRef<unknown>;
@@ -80,6 +104,7 @@ export class CrudComponent
   @Output() public refresh: EventEmitter<any> = new EventEmitter();
   @Output() public detailChange: EventEmitter<any> = new EventEmitter();
 
+  public permissions = this.permission$.getPermissions();
   public loading: boolean = true;
   public modal: boolean = false;
   public form: FormState = {
@@ -97,9 +122,10 @@ export class CrudComponent
     private formstate: FormStateService,
     private confirmation: ConfirmationService,
     private notification: NotificationService,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private permission$: PermissionService
   ) {
-    this.initialize()
+    this.initialize();
   }
 
   initialize() {
@@ -236,5 +262,40 @@ export class CrudComponent
   reset() {
     this.formstate?.resetState();
     this.formvalue?.reset();
+  }
+
+  // actions handler
+  hasAction(name: string) {
+    return this.actions?.find((e) => e.name === name) ? true : false;
+  }
+
+  // scopes handler
+  hasScope(action: CrudActionType) {
+    const findedAction = this.actions?.find((e) => e.name === action.name);
+    if (
+      findedAction &&
+      action.scopes?.length > 0 &&
+      findedAction.scopes?.some((scope) => action?.scopes.includes(scope))
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getAction(name: string) {
+    return this.actions?.find((e) => e.name === name);
+  }
+
+  getScopes(actionName: string) {
+    return this.actions?.find((e) => e.name === actionName)?.scopes || [];
+  }
+
+  isDisabled(actionName: string) {
+    return this.permissions.some((scope) =>
+      this.getAction(actionName)?.scopes.includes(scope)
+    )
+      ? false
+      : true;
   }
 }

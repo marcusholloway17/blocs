@@ -29,6 +29,8 @@
             Actualiser
           </button>
           <button
+            *ngIf="actions && hasAction('create')"
+            [disabled]="isDisabled('create')"
             type="button"
             class="btn btn-sm btn-outline"
             (click)="modal = true"
@@ -48,7 +50,14 @@
 
       <!-- overflow action -->
       <ng-template #dgActionOverflow let-item>
-        <button class="action-item" (click)="onEdit(item)">Editer</button>
+        <button
+          *ngIf="actions && hasAction('update')"
+          [disabled]="isDisabled('update')"
+          class="action-item"
+          (click)="onEdit(item)"
+        >
+          Editer
+        </button>
         <ng-container
           *ngTemplateOutlet="
             otherActionOverflowTemplateRef;
@@ -56,7 +65,12 @@
           "
         >
         </ng-container>
-        <button class="action-item" (click)="deleteRequest(item)">
+        <button
+          *ngIf="actions && hasAction('delete')"
+          [disabled]="isDisabled('delete')"
+          class="action-item"
+          (click)="deleteRequest(item)"
+        >
           Supprimer
         </button>
       </ng-template>
