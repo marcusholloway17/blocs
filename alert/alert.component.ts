@@ -15,11 +15,13 @@ export class AlertComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.alertState$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (value) => {
-        console.log(value?.closeDelay)
+        console.log(value?.closeDelay);
         if (value?.closeDelay !== undefined) {
-          setTimeout(() => {
-            this.onClose();
-          }, value?.closeDelay);
+          if (value?.closeDelay !== -1) {
+            setTimeout(() => {
+              this.onClose();
+            }, value?.closeDelay);
+          }
         }
       },
     });
