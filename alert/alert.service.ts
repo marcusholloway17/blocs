@@ -31,7 +31,7 @@ export class AlertService {
     this.setState({
       type: "success",
       msg,
-      closeDelay,
+      closeDelay: closeDelay ?? 5000,
     });
   }
   warning(msg: string, closeDelay?: number) {
