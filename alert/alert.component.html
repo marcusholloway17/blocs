@@ -1,5 +1,5 @@
 <div *ngIf="alertState$ | async as state">
-  <clr-alert [clrAlertType]="state.type" (clrAlertClosedChange)="onClose()">
+  <clr-alert [clrAlertType]="state.type" [clrAlertAppLevel]="true" (clrAlertClosedChange)="onClose()">
     <clr-alert-item>
       <span class="alert-text"> {{ state.msg }} </span>
     </clr-alert-item>
