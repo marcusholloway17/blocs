@@ -12,6 +12,7 @@ import { NgxSmartFormModule } from "@azlabsjs/ngx-smart-form";
 import { TextEditorComponent } from "./text-editor/text-editor.component";
 import { SearcherComponent } from "./searcher/searcher.component";
 import { AlertComponent } from "./alert/alert.component";
+import { PasswordCheckerComponent } from "./password-checker/password-checker.component";
 // import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { AlertComponent } from "./alert/alert.component";
     TextEditorComponent,
     SearcherComponent,
     AlertComponent,
+    PasswordCheckerComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +45,7 @@ import { AlertComponent } from "./alert/alert.component";
     CrudComponent,
     SearcherComponent,
     AlertComponent,
+    PasswordCheckerComponent,
   ],
 })
 export class BlocsModule {}
