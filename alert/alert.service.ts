@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { AlertStateType } from "src/app/views/dashboard/utils";
+import { AlertStateType } from "../utils";
 
 @Injectable({
   providedIn: "root",
@@ -38,7 +38,7 @@ export class AlertService {
     this.setState({
       type: "warning",
       msg,
-      closeDelay,
+      closeDelay: closeDelay ?? 5000,
     });
   }
   danger(msg: string, closeDelay?: number) {
