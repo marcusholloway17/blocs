@@ -1,6 +1,11 @@
 import { FormControl } from "@angular/forms";
 import { FormComponentInterface } from "@azlabsjs/ngx-smart-form";
 
+export const DEFAULT_ERROR_MSG =
+  "Une erreur est survenue, veuillez réessayer !";
+export type DataResponseType = {
+  data: any;
+};
 export const PHONE_NUMBER_SUFFIX = "@c.us";
 export const SUCCESS_ALERT: AlertStateType = {
   type: "success",
