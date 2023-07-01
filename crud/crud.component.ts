@@ -97,6 +97,7 @@ export class CrudComponent
       scopes: [],
     },
   ];
+  @Input() headerContentTemplateRef!: TemplateRef<unknown>;
   @Input() otherActionOverflowTemplateRef!: TemplateRef<unknown>;
   @Input() otherActionBarTemplateRef!: TemplateRef<unknown>;
   @Input() otherRowDetailTemplateRef!: TemplateRef<unknown>;

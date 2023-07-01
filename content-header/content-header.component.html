@@ -1,4 +1,4 @@
-<div class="card custom-card-padding">
+<div class="card custom-card-padding" *ngIf="!customTemplateRef">
   <h3>{{ title | uppercase }}</h3>
   <div class="page-description">
     <p>{{ description }}</p>
@@ -8,3 +8,5 @@
     retour
   </button>
 </div>
+
+<ng-container *ngTemplateOutlet="customTemplateRef"> </ng-container>

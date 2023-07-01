@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-content-header',
@@ -9,6 +9,8 @@ export class ContentHeaderComponent implements OnInit {
   @Input() title: string | undefined;
   @Input() description: string | undefined;
   @Input() hasReturn: boolean = false;
+  @Input() customTemplateRef!: TemplateRef<unknown>;
+
   constructor() { }
 
   ngOnInit(): void {

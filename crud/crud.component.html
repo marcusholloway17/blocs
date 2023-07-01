@@ -1,104 +1,102 @@
 <!-- content header -->
 <app-content-header
-  *ngIf="title || description"
   [title]="title"
   [description]="description"
   [hasReturn]="true"
+  [customTemplateRef]="headerContentTemplateRef"
 ></app-content-header>
 
 <!-- content body -->
-<div class="card custom-card-padding">
-  <h4 *ngIf="grid_title">{{ grid_title }}</h4>
-  <ng-container *ngIf="data$ | async as data">
-    <ngx-clr-smart-grid
-      [data]="data"
-      [columns]="columns"
-      [loading]="loading"
-      [config]="config"
-      (detailChange)="onDetailChange($event)"
-    >
-      <!-- action bar -->
-      <ng-template #dgActionBar let-selected>
-        <div class="btn-group">
-          <button
-            type="button"
-            class="btn btn-sm btn-outline"
-            (click)="getData()"
-          >
-            <clr-icon shape="refresh"></clr-icon>
-            Actualiser
-          </button>
-          <button
-            *ngIf="actions && hasAction('create')"
-            [disabled]="isDisabled('create')"
-            type="button"
-            class="btn btn-sm btn-outline"
-            (click)="modal = true"
-          >
-            <clr-icon shape="note"></clr-icon>
-            Ajouter
-          </button>
-          <ng-container
-            *ngTemplateOutlet="
-              otherActionBarTemplateRef;
-              context: { $implicit: selected }
-            "
-          >
-          </ng-container>
-        </div>
-      </ng-template>
-
-      <!-- overflow action -->
-      <ng-template #dgActionOverflow let-item>
+<h4 *ngIf="grid_title">{{ grid_title }}</h4>
+<ng-container *ngIf="data$ | async as data">
+  <ngx-clr-smart-grid
+    [data]="data"
+    [columns]="columns"
+    [loading]="loading"
+    [config]="config"
+    (detailChange)="onDetailChange($event)"
+  >
+    <!-- action bar -->
+    <ng-template #dgActionBar let-selected>
+      <div class="btn-group">
         <button
-          *ngIf="actions && hasAction('update')"
-          [disabled]="isDisabled('update')"
-          class="action-item"
-          (click)="onEdit(item)"
+          type="button"
+          class="btn btn-sm btn-outline"
+          (click)="getData()"
         >
-          Editer
+          <clr-icon shape="refresh"></clr-icon>
+          Actualiser
+        </button>
+        <button
+          *ngIf="actions && hasAction('create')"
+          [disabled]="isDisabled('create')"
+          type="button"
+          class="btn btn-sm btn-outline"
+          (click)="modal = true"
+        >
+          <clr-icon shape="note"></clr-icon>
+          Ajouter
         </button>
         <ng-container
           *ngTemplateOutlet="
-            otherActionOverflowTemplateRef;
-            context: { $implicit: item }
+            otherActionBarTemplateRef;
+            context: { $implicit: selected }
           "
         >
         </ng-container>
-        <button
-          *ngIf="actions && hasAction('delete')"
-          [disabled]="isDisabled('delete')"
-          class="action-item"
-          (click)="deleteRequest(item)"
-        >
-          Supprimer
-        </button>
-      </ng-template>
+      </div>
+    </ng-template>
 
-      <!-- expandable row -->
-      <ng-template #dgRowDetail let-item>
-        <ng-container
-          *ngTemplateOutlet="
-            otherRowDetailTemplateRef;
-            context: { $implicit: item }
-          "
-        >
-        </ng-container>
-      </ng-template>
+    <!-- overflow action -->
+    <ng-template #dgActionOverflow let-item>
+      <button
+        *ngIf="actions && hasAction('update')"
+        [disabled]="isDisabled('update')"
+        class="action-item"
+        (click)="onEdit(item)"
+      >
+        Editer
+      </button>
+      <ng-container
+        *ngTemplateOutlet="
+          otherActionOverflowTemplateRef;
+          context: { $implicit: item }
+        "
+      >
+      </ng-container>
+      <button
+        *ngIf="actions && hasAction('delete')"
+        [disabled]="isDisabled('delete')"
+        class="action-item"
+        (click)="deleteRequest(item)"
+      >
+        Supprimer
+      </button>
+    </ng-template>
 
-      <!-- row detail -->
-      <ng-template #dgDetailBody let-item>
-        <ng-container
-          *ngTemplateOutlet="
-            otherDetailBodyTemplateRef;
-            context: { $implicit: item }
-          "
-        >
-        </ng-container>
-      </ng-template>
-    </ngx-clr-smart-grid>
-  </ng-container>
-</div>
+    <!-- expandable row -->
+    <ng-template #dgRowDetail let-item>
+      <ng-container
+        *ngTemplateOutlet="
+          otherRowDetailTemplateRef;
+          context: { $implicit: item }
+        "
+      >
+      </ng-container>
+    </ng-template>
+
+    <!-- row detail -->
+    <ng-template #dgDetailBody let-item>
+      <ng-container
+        *ngTemplateOutlet="
+          otherDetailBodyTemplateRef;
+          context: { $implicit: item }
+        "
+      >
+      </ng-container>
+    </ng-template>
+  </ngx-clr-smart-grid>
+</ng-container>
 
 <!-- modal -->
 <clr-modal
