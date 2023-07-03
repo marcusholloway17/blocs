@@ -44,6 +44,7 @@ export type CrudConfingType = {
   form_id: number;
   url: string;
   data_params?: any;
+  allowReturn?: boolean;
 };
 
 export type CrudActionType = {
@@ -77,6 +78,7 @@ export class CrudComponent
   }
   @Input() public title: string = this.crudConfig.title ?? "";
   @Input() public description?: string = this.crudConfig.description;
+  @Input() public allowReturn?: boolean = this.crudConfig.allowReturn ?? false;
   @Input() public form_title?: string = this.crudConfig.form_title;
   @Input() public grid_title?: string = this.crudConfig.grid_title;
   @Input() public actions?: CrudActionType[] = [
@@ -190,6 +192,10 @@ export class CrudComponent
 
   onDetailChange(event: any) {
     this.detailChange.emit(event);
+  }
+
+  onReadyState(event: any) {
+    console.log(event);
   }
 
   onSubmit(event: any) {

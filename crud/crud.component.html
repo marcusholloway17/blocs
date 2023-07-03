@@ -2,7 +2,7 @@
 <app-content-header
   [title]="title"
   [description]="description"
-  [hasReturn]="true"
+  [hasReturn]="allowReturn ?? false"
   [customTemplateRef]="headerContentTemplateRef"
 ></app-content-header>
 
@@ -115,6 +115,7 @@
         [form]="vm"
         [submitable]="true"
         (submit)="onSubmit($event)"
+        (readyState)="onReadyState($event)"
       >
         <ng-template #submitButton let-handler>
           <button class="btn btn-success" (click)="handler($event)">
