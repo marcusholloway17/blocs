@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, catchError, map, tap, throwError } from "rxjs";
 import { AppUIStateProvider } from "src/app/views/partial/ui-state/core";
 import { NotificationService } from "../utils/notification.service";
+import { AlertService } from "../alert/alert.service";
 
 @Injectable()
 export class CrudService {
@@ -13,7 +14,8 @@ export class CrudService {
   constructor(
     private http: HttpClient,
     private UIState: AppUIStateProvider,
-    private notif$: NotificationService
+    private notif$: NotificationService,
+    private alert: AlertService
   ) {}
 
   setURL(url: string) {
@@ -33,7 +35,7 @@ export class CrudService {
         currentState.unshift(data);
         this.setState(currentState);
       }),
-      tap(() => this.notif$.success())
+      tap(() => (this.alert.success(), this.UIState.endAction()))
     );
   }
 
@@ -53,7 +55,7 @@ export class CrudService {
         );
         this.setState(currentState);
       }),
-      tap(() => this.notif$.success())
+      tap(() => (this.alert.success(), this.UIState.endAction()))
     );
   }
 
@@ -87,7 +89,7 @@ export class CrudService {
         currentState.splice(currentState.indexOf(data), 1);
         this.setState(currentState);
       }),
-      tap(() => this.notif$.success())
+      tap(() => (this.alert.success(), this.UIState.endAction()))
     );
   }
 
