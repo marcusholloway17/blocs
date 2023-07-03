@@ -21,7 +21,7 @@
       <div class="btn-group">
         <button
           type="button"
-          class="btn btn-sm btn-outline"
+          class="btn btn-sm btn-success"
           (click)="getData()"
         >
           <clr-icon shape="refresh"></clr-icon>
@@ -31,7 +31,7 @@
           *ngIf="actions && hasAction('create')"
           [disabled]="isDisabled('create')"
           type="button"
-          class="btn btn-sm btn-outline"
+          class="btn btn-sm btn-success"
           (click)="modal = true"
         >
           <clr-icon shape="note"></clr-icon>
@@ -117,7 +117,7 @@
         (submit)="onSubmit($event)"
       >
         <ng-template #submitButton let-handler>
-          <button class="btn btn-primary" (click)="handler($event)">
+          <button class="btn btn-success" (click)="handler($event)">
             <clr-icon shape="circle-arrow" dir="up"></clr-icon>
             SOUMETTRE
           </button>
