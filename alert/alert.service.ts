@@ -30,7 +30,7 @@ export class AlertService {
   success(msg?: string, closeDelay?: number) {
     this.setState({
       type: "success",
-      msg,
+      msg: msg ?? "Opération effectué !",
       closeDelay: closeDelay ?? 5000,
     });
   }
