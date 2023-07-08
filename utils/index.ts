@@ -77,3 +77,11 @@ export const addcontrolvalue = (
 ) => {
   formvalue.addControl(field, new FormControl(value));
 };
+
+export const getSum = (data: any[], field: string) => {
+  let sum = 0;
+  data.forEach((value) => {
+    sum = Number(value[field]);
+  });
+  return sum;
+};
