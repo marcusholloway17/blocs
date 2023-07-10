@@ -13,7 +13,9 @@ import { TextEditorComponent } from "./text-editor/text-editor.component";
 import { SearcherComponent } from "./searcher/searcher.component";
 import { AlertComponent } from "./alert/alert.component";
 import { PasswordCheckerComponent } from "./password-checker/password-checker.component";
-import { ExporterComponent } from './exporter/exporter.component';
+import { ExporterComponent } from "./exporter/exporter.component";
+import { CalendarComponent } from "./calendar/calendar.component";
+import { FullCalendarModule } from "@fullcalendar/angular";
 // import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
@@ -28,6 +30,7 @@ import { ExporterComponent } from './exporter/exporter.component';
     AlertComponent,
     PasswordCheckerComponent,
     ExporterComponent,
+    CalendarComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +40,7 @@ import { ExporterComponent } from './exporter/exporter.component';
       pipeTransformMap: {},
     }),
     NgxSmartFormModule,
+    FullCalendarModule,
     // EditorModule,
   ],
   exports: [
@@ -48,7 +52,8 @@ import { ExporterComponent } from './exporter/exporter.component';
     SearcherComponent,
     AlertComponent,
     PasswordCheckerComponent,
-    ExporterComponent
+    ExporterComponent,
+    CalendarComponent,
   ],
 })
 export class BlocsModule {}
