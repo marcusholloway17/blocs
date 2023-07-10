@@ -1,0 +1,44 @@
+<div class="btn-group">
+  <button type="button" class="btn btn-sm btn-success" (click)="onExport()">
+    <clr-icon shape="export"></clr-icon>
+    Exporter
+  </button>
+  <div *ngIf="showExportType">
+    <button
+      *ngIf="hasType('json')"
+      type="button"
+      class="btn btn-sm btn-outline-success"
+      (click)="export('json')"
+    >
+      <clr-icon shape="file"></clr-icon>
+      JSON
+    </button>
+    <button
+      *ngIf="hasType('csv')"
+      type="button"
+      class="btn btn-sm btn-outline-success"
+      (click)="export('csv')"
+    >
+      <clr-icon shape="file"></clr-icon>
+      csv
+    </button>
+    <button
+      *ngIf="hasType('xls')"
+      type="button"
+      class="btn btn-sm btn-outline-success"
+      (click)="export('xls')"
+    >
+      <clr-icon shape="xls-file"></clr-icon>
+      xls
+    </button>
+    <button
+      *ngIf="hasType('xml')"
+      type="button"
+      class="btn btn-sm btn-outline-success"
+      (click)="export('xml')"
+    >
+      <clr-icon shape="file"></clr-icon>
+      xml
+    </button>
+  </div>
+</div>
