@@ -12,7 +12,7 @@ export class ExporterComponent implements OnInit {
   /**
    * @description array of data to be exported
    */
-  @Input() data!: any[];
+  @Input() data!: any[] | null;
   /**
    * @description array of columns to be exported
    */
@@ -36,7 +36,7 @@ export class ExporterComponent implements OnInit {
     let data: any;
     // manage custom field
     if (this.columns) {
-      data = this.data.map((element: any) => {
+      data = this.data?.map((element: any) => {
         let _object: any = {};
         for (const key of this.columns) {
           if (element?.hasOwnProperty(key)) {
