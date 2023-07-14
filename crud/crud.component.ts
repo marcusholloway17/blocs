@@ -251,7 +251,6 @@ export class CrudComponent
         delete item[element.key];
       }
     }
-    console.log(item);
     // solve radio field error on edit
     if (item?.hasOwnProperty("active")) {
       item.active = item.active.toString();
