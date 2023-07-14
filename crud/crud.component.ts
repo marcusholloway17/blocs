@@ -52,6 +52,11 @@ export type CrudActionType = {
   scopes: string[];
 };
 
+export type SchemaType = {
+  key: string;
+  value: string;
+};
+
 @Component({
   selector: "app-crud",
   templateUrl: "./crud.component.html",
@@ -99,6 +104,7 @@ export class CrudComponent
       scopes: [],
     },
   ];
+  @Input() public schema?: SchemaType[];
   @Input() headerContentTemplateRef!: TemplateRef<unknown>;
   @Input() otherActionOverflowTemplateRef!: TemplateRef<unknown>;
   @Input() otherActionBarTemplateRef!: TemplateRef<unknown>;
@@ -237,6 +243,15 @@ export class CrudComponent
 
   onEdit(item: any) {
     this.formstate.editing(item);
+    // handle schema
+    if (this.schema) {
+      for (const element of this.schema) {
+        item[element.value] = item[element.key];
+        // then delete old key
+        delete item[element.key];
+      }
+    }
+    console.log(item);
     // solve radio field error on edit
     if (item?.hasOwnProperty("active")) {
       item.active = item.active.toString();
