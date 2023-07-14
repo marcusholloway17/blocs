@@ -201,7 +201,7 @@ export class CrudComponent
   }
 
   onReadyState(event: any) {
-    console.log(event);
+    // console.log(event);
   }
 
   onSubmit(event: any) {
