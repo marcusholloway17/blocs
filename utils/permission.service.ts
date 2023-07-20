@@ -1,9 +1,9 @@
-import { Inject, Injectable } from '@angular/core';
-import { AUTH_SERVICE } from 'src/app/views/login/constants';
-import { AuthServiceInterface } from 'src/app/views/login/contracts';
+import { Inject, Injectable } from "@angular/core";
+import { AUTH_SERVICE } from "src/app/views/login/constants";
+import { AuthServiceInterface } from "src/app/views/login/contracts";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PermissionService {
   public permissions!: string[];
@@ -22,5 +22,14 @@ export class PermissionService {
 
   getUser() {
     return this.user;
+  }
+
+  /**
+   * @description check whether the connected user has this scope
+   * @param scope
+   * @returns boolean
+   */
+  has(scope: string): boolean {
+    return this.permissions.includes(scope);
   }
 }
