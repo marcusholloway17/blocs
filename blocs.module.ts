@@ -13,6 +13,8 @@ import { TextEditorComponent } from "./text-editor/text-editor.component";
 import { SearcherComponent } from "./searcher/searcher.component";
 import { AlertComponent } from "./alert/alert.component";
 import { PasswordCheckerComponent } from "./password-checker/password-checker.component";
+import { ChartComponent } from "./chart/chart.component";
+import { ChartjsModule } from "@ctrl/ngx-chartjs";
 // import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
@@ -26,6 +28,7 @@ import { PasswordCheckerComponent } from "./password-checker/password-checker.co
     SearcherComponent,
     AlertComponent,
     PasswordCheckerComponent,
+    ChartComponent,
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,7 @@ import { PasswordCheckerComponent } from "./password-checker/password-checker.co
       pipeTransformMap: {},
     }),
     NgxSmartFormModule,
+    ChartjsModule,
     // EditorModule,
   ],
   exports: [
@@ -46,6 +50,7 @@ import { PasswordCheckerComponent } from "./password-checker/password-checker.co
     SearcherComponent,
     AlertComponent,
     PasswordCheckerComponent,
+    ChartComponent,
   ],
 })
 export class BlocsModule {}
