@@ -7,7 +7,7 @@ import type { ChartData, ChartOptions, ChartType } from "chart.js";
   styleUrls: ["./chart.component.css"],
 })
 export class ChartComponent implements OnInit {
-  @Input() type!: ChartType;
+  @Input() type: ChartType = 'bar';
   @Input() data: ChartData = { datasets: [] };
   @Input() options: ChartOptions = {};
   @Input() redraw: boolean = false;
