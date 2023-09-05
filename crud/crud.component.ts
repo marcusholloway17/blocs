@@ -106,6 +106,7 @@ export class CrudComponent
   @Input() otherDetailBodyTemplateRef!: TemplateRef<unknown>;
   @Output() public refresh: EventEmitter<any> = new EventEmitter();
   @Output() public detailChange: EventEmitter<any> = new EventEmitter();
+  @Output() public readyState: EventEmitter<any> = new EventEmitter();
 
   public permissions = this.permission$.getPermissions();
   public loading: boolean = true;
@@ -186,7 +187,10 @@ export class CrudComponent
 
   async getData() {
     await lastValueFrom(
-      this.crudService.getAll(this.data_params).pipe(takeUntil(this.destroy$))
+      this.crudService.getAll(this.data_params).pipe(
+        takeUntil(this.destroy$),
+        tap((data: any) => this.readyState.emit(data))
+      )
     );
   }
 
@@ -195,7 +199,7 @@ export class CrudComponent
   }
 
   onReadyState(event: any) {
-    console.log(event);
+    // console.log(event);
   }
 
   onSubmit(event: any) {
