@@ -39,7 +39,6 @@ import { ChartjsModule } from "@ctrl/ngx-chartjs";
     }),
     NgxSmartFormModule,
     ChartjsModule,
-    // EditorModule,
   ],
   exports: [
     ContentHeaderComponent,
