@@ -1,11 +1,12 @@
 <div class="card search-card">
   <ng-container *ngIf="form$ | async as vm">
-    <h5>{{ vm.title }}</h5>
+    <h5 *ngIf="config.showTitle">{{ config.title ?? vm.title }}</h5>
     <ngx-smart-form
       #formvalue
       [form]="vm"
       [submitable]="true"
       (submit)="onSubmit($event)"
+      (readyState)="onReadyState($event)"
     >
       <ng-template #submitButton let-handler>
         <button class="btn btn-primary" (click)="handler($event)">
