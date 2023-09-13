@@ -1,16 +1,19 @@
 <section class="fof">
-    <div class="container max-width-sm">
-      <div class="text-component text-center margin-bottom-lg">
-        <h1>Page non trouvée</h1>
-        <p>Désolé, mais la page que vous recherchez est introuvable.</p>
-        <p>
-          <a class="btn btn-outline-primary" routerLink=".."><clr-icon shape="undo"></clr-icon> Retour</a>
-          <a class="btn btn-primary" (click)="backToDashboard()">Page d'accueil</a>.
-        </p>
-      </div>
-  
-      <div class="fof__animation" aria-lable="404 animation">
-        <img src="../assets/images/404-error.svg" alt="404 error image" />
-      </div>
+  <div class="container max-width-sm">
+    <div class="text-component text-center margin-bottom-lg">
+      <h1>Page non trouvée</h1>
+      <p>Désolé, mais la page que vous recherchez est introuvable.</p>
+      <p>
+        <a class="btn btn-outline-primary" (click)="back()"
+          ><clr-icon shape="undo"></clr-icon> Retour</a
+        >
+        <a class="btn btn-primary" (click)="backToDashboard()">Page d'accueil</a
+        >.
+      </p>
     </div>
-  </section>
+
+    <div class="fof__animation" aria-lable="404 animation">
+      <img src="../assets/images/404-error.svg" alt="404 error image" />
+    </div>
+  </div>
+</section>
