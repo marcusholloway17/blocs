@@ -13,6 +13,7 @@ import { TextEditorComponent } from "./text-editor/text-editor.component";
 import { SearcherComponent } from "./searcher/searcher.component";
 import { AlertComponent } from "./alert/alert.component";
 import { PasswordCheckerComponent } from "./password-checker/password-checker.component";
+import { ByIdPipe } from "./by-id.pipe";
 // import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { PasswordCheckerComponent } from "./password-checker/password-checker.co
     SearcherComponent,
     AlertComponent,
     PasswordCheckerComponent,
+    ByIdPipe,
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { PasswordCheckerComponent } from "./password-checker/password-checker.co
     SearcherComponent,
     AlertComponent,
     PasswordCheckerComponent,
+    ByIdPipe,
   ],
 })
 export class BlocsModule {}
