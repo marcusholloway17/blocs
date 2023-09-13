@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class SearcherService {
@@ -18,5 +18,9 @@ export class SearcherService {
 
   search(data: any) {
     return this.http.get(this.url, { params: data });
+  }
+
+  customSearch(data: any = {}, url: string = this.url) {
+    return this.http.get(url ?? this.url, { params: data });
   }
 }
