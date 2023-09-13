@@ -25,6 +25,7 @@ import {
 } from "rxjs";
 import { FormConfigInterface } from "@azlabsjs/smart-form-core";
 import { AppUIStateProvider } from "src/app/views/partial/ui-state/core";
+import { ClrLoadingState } from "@clr/angular";
 
 export type SearchConfigType = {
   /**
@@ -62,6 +63,8 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
     formId: 0,
   };
 
+  submitBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
+
   /**
    * request url setter
    * @required url string
@@ -89,7 +92,7 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
   /**
    * Emit the result of the search
    */
-  @Output() onResult = new EventEmitter();
+  @Output() result = new EventEmitter();
 
   /**
    * Emit true when performing a request and false if not
@@ -102,9 +105,7 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
     private uistate: AppUIStateProvider
   ) {}
 
-  ngOnInit(): void {
-    console.log("url", this.url);
-  }
+  ngOnInit(): void {}
 
   async ngAfterContentInit(): Promise<void> {
     this.form$ = this.formsClient.get(this.config.formId);
@@ -133,7 +134,7 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
           })
         )
         .subscribe((res: any) => {
-          this.onResult.emit(res);
+          this.result.emit(res);
           this.stopLoader();
         });
     } else {
@@ -156,9 +157,7 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
           this.stopLoader();
           return throwError(() => err);
         }),
-        tap(
-          (response: any) => (this.onResult.emit(response), this.stopLoader())
-        )
+        tap((response: any) => (this.result.emit(response), this.stopLoader()))
       )
       .subscribe();
   }
@@ -172,6 +171,7 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
    */
   private startLoader() {
     this.uistate.startAction();
+    this.submitBtnState = ClrLoadingState.LOADING;
     this.performingRequest.emit(true);
   }
 
@@ -180,6 +180,7 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
    */
   private stopLoader() {
     this.uistate.endAction();
+    this.submitBtnState = ClrLoadingState.ERROR;
     this.performingRequest.emit(false);
   }
 }
