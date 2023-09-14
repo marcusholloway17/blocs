@@ -30,14 +30,19 @@ import { ClrLoadingState } from "@clr/angular";
 export type SearchConfigType = {
   /**
    * Provide a title for the form component
-   * @optional title Object
+   * @optional title
    */
   title?: string;
   /**
    * show form title section if true
-   * @optional query Object
+   * @optional showTitle
    */
   showTitle?: boolean;
+  /**
+   * perform submit request on submit
+   * @optional autoSubmit
+   */
+  autoSubmit?: boolean;
   /**
    * form id used to build the form
    * @required formId number | string
@@ -61,6 +66,7 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
     title: "Search",
     showTitle: false,
     formId: 0,
+    autoSubmit: true,
   };
 
   submitBtnState: ClrLoadingState = ClrLoadingState.DEFAULT;
@@ -122,7 +128,7 @@ export class SearcherComponent implements OnInit, AfterContentInit, OnDestroy {
    * @param event
    */
   onSubmit(event: any) {
-    if (this.url) {
+    if (this.config.autoSubmit == true) {
       this.startLoader();
       this.searcherService
         .search({ ...event, ...this.config.query })
