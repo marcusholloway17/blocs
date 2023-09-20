@@ -86,6 +86,7 @@ export class CrudComponent
   @Input() public allowReturn?: boolean = this.crudConfig.allowReturn ?? false;
   @Input() public form_title?: string = this.crudConfig.form_title;
   @Input() public grid_title?: string = this.crudConfig.grid_title;
+  @Input() public loadOninit?: boolean = true;
   @Input() public actions?: CrudActionType[] = [
     {
       name: "create",
@@ -191,9 +192,11 @@ export class CrudComponent
   }
 
   async getData() {
-    await lastValueFrom(
-      this.crudService.getAll(this.data_params).pipe(takeUntil(this.destroy$))
-    );
+    if (this.loadOninit) {
+      await lastValueFrom(
+        this.crudService.getAll(this.data_params).pipe(takeUntil(this.destroy$))
+      );
+    }
   }
 
   onDetailChange(event: any) {
