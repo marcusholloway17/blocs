@@ -14,7 +14,8 @@ import { SearcherComponent } from "./searcher/searcher.component";
 import { AlertComponent } from "./alert/alert.component";
 import { PasswordCheckerComponent } from "./password-checker/password-checker.component";
 import { ByIdPipe } from "./by-id.pipe";
-import { ProfilePictureComponent } from './profile-picture/profile-picture.component';
+import { ProfilePictureComponent } from "./profile-picture/profile-picture.component";
+import { WithLoadingPipe } from "./pipes/with-loading.pipe";
 // import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { ProfilePictureComponent } from './profile-picture/profile-picture.compo
     AlertComponent,
     PasswordCheckerComponent,
     ByIdPipe,
+    WithLoadingPipe,
     ProfilePictureComponent,
   ],
   imports: [
@@ -51,7 +53,8 @@ import { ProfilePictureComponent } from './profile-picture/profile-picture.compo
     AlertComponent,
     PasswordCheckerComponent,
     ByIdPipe,
-    ProfilePictureComponent
+    WithLoadingPipe,
+    ProfilePictureComponent,
   ],
 })
 export class BlocsModule {}
