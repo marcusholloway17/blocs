@@ -13,6 +13,6 @@ export class WithLoadingPipe implements PipeTransform {
           startWith({ loading: true }),
           catchError((error) => of({ loading: false, error }))
         )
-      : val;
+      : of(val);
   }
 }
