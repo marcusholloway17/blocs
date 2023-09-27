@@ -12,8 +12,8 @@ export class ByIdPipe implements PipeTransform {
   transform(
     value: string | number,
     url: string,
-    columns?: string[],
-    params?: any
+    params?: any,
+    columns?: string[]
   ): Observable<any> {
     const apiUrl = `${url}${value}`;
     this.uistate.startAction();
