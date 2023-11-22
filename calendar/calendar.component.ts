@@ -1,5 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { CalendarOptions, EventInput } from "@fullcalendar/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
+import { FullCalendarComponent } from "@fullcalendar/angular";
+import { CalendarOptions, DateSelectArg, EventInput } from "@fullcalendar/core";
 import { Observable } from "rxjs";
 
 @Component({
@@ -12,6 +20,8 @@ export class CalendarComponent implements OnInit {
   @Input() events!: Observable<EventInput>;
   @Output() dateClick: EventEmitter<any> = new EventEmitter();
   @Output() eventClick: EventEmitter<any> = new EventEmitter();
+  @Output() select: EventEmitter<any> = new EventEmitter();
+  @ViewChild("calendar") calendarComponent!: FullCalendarComponent;
 
   constructor() {}
 
@@ -22,5 +32,8 @@ export class CalendarComponent implements OnInit {
   }
   onEventClick(event: any) {
     this.eventClick.emit(event);
+  }
+  onDateSelect(event: DateSelectArg) {
+    this.select.emit({ start: event.start, end: event.end });
   }
 }
